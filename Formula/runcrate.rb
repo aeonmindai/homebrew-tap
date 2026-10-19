@@ -2,27 +2,26 @@
 class Runcrate < Formula
   desc "Deploy and manage Runcrate GPU instances from your terminal"
   homepage "https://runcrate.ai"
-  version "0.2.0"
   license "MIT"
 
   on_macos do
     on_arm do
-      url "https://github.com/aeonmindai/runcrate-cli/releases/download/v#{version}/runcrate-darwin-arm64"
+      url "https://github.com/aeonmindai/runcrate-cli/releases/download/v0.2.0/runcrate-darwin-arm64"
       sha256 "6145125e362439b55a5da550a7d3a193641516d3c70288de7f86051785e29650"
     end
     on_intel do
-      url "https://github.com/aeonmindai/runcrate-cli/releases/download/v#{version}/runcrate-darwin-amd64"
+      url "https://github.com/aeonmindai/runcrate-cli/releases/download/v0.2.0/runcrate-darwin-amd64"
       sha256 "25d25e3ab296f94630a6910c1f8e0fb4d08818afa647ef58c3ffb5722ca6d50b"
     end
   end
 
   on_linux do
     on_arm do
-      url "https://github.com/aeonmindai/runcrate-cli/releases/download/v#{version}/runcrate-linux-arm64"
+      url "https://github.com/aeonmindai/runcrate-cli/releases/download/v0.2.0/runcrate-linux-arm64"
       sha256 "88d6e715f0270eb08de7406666680d59f78a95d4ee06c0cc1bfef90bb9452483"
     end
     on_intel do
-      url "https://github.com/aeonmindai/runcrate-cli/releases/download/v#{version}/runcrate-linux-amd64"
+      url "https://github.com/aeonmindai/runcrate-cli/releases/download/v0.2.0/runcrate-linux-amd64"
       sha256 "622b451ad7cdaedfc9f5e31b1ecb596aca718ad334ace39114a04c0099318fdb"
     end
   end

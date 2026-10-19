@@ -17,7 +17,6 @@ if [ -z "$tag" ]; then
     | sed -n 's/.*"tag_name": *"\([^"]*\)".*/\1/p' | head -n1)"
 fi
 [ -n "$tag" ] || { echo "could not resolve latest release tag" >&2; exit 1; }
-version="${tag#v}"
 
 sums="$(curl -fsSL "https://github.com/$REPO/releases/download/$tag/checksums.txt")"
 sha() {
@@ -27,7 +26,7 @@ sha() {
   printf '%s' "$s"
 }
 
-base="https://github.com/$REPO/releases/download/v#{version}"
+base="https://github.com/$REPO/releases/download/$tag"
 
 mkdir -p "$(dirname "$FORMULA")"
 cat >"$FORMULA" <<EOF
@@ -35,7 +34,6 @@ cat >"$FORMULA" <<EOF
 class Runcrate < Formula
   desc "Deploy and manage Runcrate GPU instances from your terminal"
   homepage "https://runcrate.ai"
-  version "$version"
   license "MIT"
 
   on_macos do

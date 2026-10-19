@@ -44,7 +44,7 @@ jobs:
             echo "changed=false" >> "$GITHUB_OUTPUT"
             exit 0
           fi
-          version="$(sed -n 's/^  version "\(.*\)"$/\1/p' Formula/runcrate.rb)"
+          version="$(sed -n 's|.*/releases/download/v\([^/]*\)/.*|\1|p' Formula/runcrate.rb | head -n1)"
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add Formula/runcrate.rb
