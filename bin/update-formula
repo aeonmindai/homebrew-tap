@@ -61,7 +61,9 @@ class Runcrate < Formula
   end
 
   def install
-    bin.install Dir["runcrate-*"].first => "runcrate"
+    binary = Dir["runcrate-*"].first
+    chmod 0755, binary
+    bin.install binary => "runcrate"
     bin.install_symlink "runcrate" => "rc"
     generate_completions_from_executable(bin/"runcrate", "completion")
   end
