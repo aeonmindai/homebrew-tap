@@ -1,0 +1,74 @@
+name: Sync formula
+
+# Keeps Formula/runcrate.rb on the latest aeonmindai/runcrate-cli release.
+# - repository_dispatch (cli-release): fired by runcrate-cli's release workflow right after
+#   a release is published (needs the HOMEBREW_TAP_TOKEN secret in runcrate-cli).
+# - schedule: safety net if the dispatch is missing or fails.
+# - workflow_dispatch: manual run, optionally pinned to a tag.
+on:
+  repository_dispatch:
+    types: [cli-release]
+  schedule:
+    - cron: '17 */6 * * *'
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Release tag (blank = latest)'
+        required: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sync-formula
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    outputs:
+      changed: ${{ steps.commit.outputs.changed }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Regenerate formula
+        env:
+          TAG: ${{ github.event.client_payload.tag || github.event.inputs.tag || '' }}
+        run: bin/update-formula "$TAG"
+
+      - name: Commit if changed
+        id: commit
+        run: |
+          if git diff --quiet -- Formula; then
+            echo "Formula already current."
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          version="$(sed -n 's/^  version "\(.*\)"$/\1/p' Formula/runcrate.rb)"
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add Formula/runcrate.rb
+          git commit -m "runcrate ${version}"
+          git push
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+
+  # Install exactly what users get (the published tap) whenever the formula moves,
+  # and on every manual run.
+  test:
+    needs: sync
+    if: needs.sync.outputs.changed == 'true' || github.event_name == 'workflow_dispatch'
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-latest, ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Set up Homebrew
+        uses: Homebrew/actions/setup-homebrew@main
+
+      - name: Install, test and audit
+        run: |
+          brew install aeonmindai/tap/runcrate
+          brew test aeonmindai/tap/runcrate
+          brew audit --strict --online aeonmindai/tap/runcrate
+          runcrate version
