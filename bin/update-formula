@@ -2,12 +2,12 @@
 # Regenerate Formula/runcrate.rb for a runcrate-cli release.
 #
 # Usage: bin/update-formula [vX.Y.Z]
-# Without an argument it uses the latest published release of aeonmindai/runcrate-cli.
+# Without an argument it uses the latest published release of runcrateai/runcrate-cli.
 # Checksums come from the release's own checksums.txt, so the formula always matches
 # what `runcrate update` and the curl installer verify.
 set -euo pipefail
 
-REPO="aeonmindai/runcrate-cli"
+REPO="runcrateai/runcrate-cli"
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 FORMULA="$ROOT/Formula/runcrate.rb"
 

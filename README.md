@@ -8,14 +8,14 @@ Deploy and manage GPU instances, SSH in with short-lived keys, copy files, and m
 workspaces, storage and billing from your terminal.
 
 ```bash
-brew install aeonmindai/tap/runcrate
+brew install runcrateai/tap/runcrate
 runcrate login
 runcrate instances
 ```
 
 Upgrade with `brew upgrade runcrate`. `rc` is installed as a shortcut for `runcrate`.
 
-Source and releases: [aeonmindai/runcrate-cli](https://github.com/aeonmindai/runcrate-cli).
+Source and releases: [runcrateai/runcrate-cli](https://github.com/runcrateai/runcrate-cli).
 
 ## How the formula stays current
 

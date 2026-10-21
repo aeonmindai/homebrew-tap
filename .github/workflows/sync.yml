@@ -1,6 +1,6 @@
 name: Sync formula
 
-# Keeps Formula/runcrate.rb on the latest aeonmindai/runcrate-cli release.
+# Keeps Formula/runcrate.rb on the latest runcrateai/runcrate-cli release.
 # - repository_dispatch (cli-release): fired by runcrate-cli's release workflow right after
 #   a release is published (needs the HOMEBREW_TAP_TOKEN secret in runcrate-cli).
 # - schedule: safety net if the dispatch is missing or fails.
@@ -68,7 +68,7 @@ jobs:
 
       - name: Install, test and audit
         run: |
-          brew install aeonmindai/tap/runcrate
-          brew test aeonmindai/tap/runcrate
-          brew audit --strict --online aeonmindai/tap/runcrate
+          brew install runcrateai/tap/runcrate
+          brew test runcrateai/tap/runcrate
+          brew audit --strict --online runcrateai/tap/runcrate
           runcrate version
